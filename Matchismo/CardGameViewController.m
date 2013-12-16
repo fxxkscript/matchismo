@@ -22,6 +22,10 @@
 @implementation CardGameViewController
 
 #pragma - mark section
+- (IBAction)resetGame:(UIButton *)sender {
+    self.game = nil;
+    [self updateUI];
+}
 
 - (CardMatchingGame *)game
 {
