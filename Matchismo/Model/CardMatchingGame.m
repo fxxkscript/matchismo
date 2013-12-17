@@ -17,6 +17,14 @@
 
 @implementation CardMatchingGame
 
+- (NSUInteger)gameMode
+{
+    if (!_gameMode) {
+        _gameMode = 2;
+    }
+    return _gameMode;
+}
+
 - (NSMutableArray *)cards
 {
     if (!_cards) {
@@ -55,22 +63,24 @@ static const int COST_TO_CHOOSE = 1;
             card.chosen = NO;
         } else {
             // match against other cards
-            for (Card *otherCard in self.cards) {
-                if (otherCard.isChosen && !otherCard.isMatched) {
-                    int matchScore = [card match:@[otherCard]];
-                    if (matchScore) {
-                        self.score += matchScore * MATCH_BONUS;
-                        otherCard.matched = YES;
-                        card.matched = YES;
-                    } else {
-                        self.score -= MISMATCH_PENALTY;
-                        otherCard.chosen = NO;
+            for (int i = 1; i < self.gameMode; i++) {
+                for (Card *otherCard in self.cards) {
+                    if (otherCard.isChosen && !otherCard.isMatched) {
+                        int matchScore = [card match:@[otherCard]];
+                        if (matchScore) {
+                            self.score += matchScore * MATCH_BONUS;
+                            otherCard.matched = YES;
+                            card.matched = YES;
+                        } else {
+                            self.score -= MISMATCH_PENALTY;
+                            otherCard.chosen = NO;
+                        }
+                        break;
                     }
-                    break;
                 }
+                self.score -= COST_TO_CHOOSE;
+                card.chosen = YES;
             }
-            self.score -= COST_TO_CHOOSE;
-            card.chosen = YES;
         }
     }
 }

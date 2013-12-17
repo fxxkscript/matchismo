@@ -16,6 +16,7 @@
 @property (nonatomic, strong) CardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UILabel *score;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegment;
 
 @end
 
@@ -25,6 +26,7 @@
 - (IBAction)resetGame:(UIButton *)sender {
     self.game = nil;
     [self updateUI];
+    [self.gameModeSegment setEnabled:TRUE];
 }
 
 - (CardMatchingGame *)game
@@ -32,6 +34,7 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
+        [self.gameModeSegment setEnabled:FALSE];
     }
     return _game;
 }
@@ -82,6 +85,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)controlChange:(UISegmentedControl *)sender {
+    NSLog(@"%d", sender.selectedSegmentIndex);
 }
 
 @end
