@@ -24,9 +24,9 @@
 
 #pragma - mark section
 - (IBAction)resetGame:(UIButton *)sender {
+    [self.gameModeSegment setEnabled:TRUE];
     self.game = nil;
     [self updateUI];
-    [self.gameModeSegment setEnabled:TRUE];
 }
 
 - (CardMatchingGame *)game
@@ -34,7 +34,6 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
-        [self.gameModeSegment setEnabled:FALSE];
     }
     return _game;
 }
@@ -46,6 +45,8 @@
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
+    [self.gameModeSegment setEnabled:FALSE];
+    
     int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chooseCardAtIndex:chosenButtonIndex];
 

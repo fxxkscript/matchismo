@@ -19,7 +19,7 @@
 
 - (NSUInteger)gameMode
 {
-    if (!_gameMode) {
+    if (_gameMode < 2) {
         _gameMode = 2;
     }
     return _gameMode;
@@ -63,7 +63,6 @@ static const int COST_TO_CHOOSE = 1;
             card.chosen = NO;
         } else {
             // match against other cards
-
             for (Card *otherCard in self.cards) {
                 if (otherCard.isChosen && !otherCard.isMatched) {
                     int matchScore = [card match:@[otherCard]];
