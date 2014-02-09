@@ -55,13 +55,22 @@
 {
     int score = 0;
     
-    if ([otherCards count] == 1) {
-        PlayingCard *otherCard = [otherCards firstObject];
-        if (otherCard.rank == self.rank) {
-            score = 4;
-        } else if ([otherCard.suit isEqualToString:self.suit]) {
-            score = 1;
+    int numOtherCards = [otherCards count];
+    if (numOtherCards) {
+        for (Card *otherCard in otherCards) {
+            if ([otherCard isKindOfClass:[PlayingCard class]]) {
+                PlayingCard *card = (PlayingCard *)otherCard;
+                if (card.rank == self.rank) {
+                    score = 4;
+                } else if ([card.suit isEqualToString:self.suit]) {
+                    score = 1;
+                }
+            }
         }
+    }
+
+    if (numOtherCards > 1) {
+        score += [[otherCards firstObject] match:[otherCards subarrayWithRange:NSMakeRange(1, numOtherCards - 1)]];
     }
     
     return score;

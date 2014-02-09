@@ -89,7 +89,8 @@
 }
 
 - (IBAction)controlChange:(UISegmentedControl *)sender {
-    NSLog(@"%d", sender.selectedSegmentIndex);
+    self.game.gameMode = sender.selectedSegmentIndex + 2;
+    NSLog(@"%d", self.game.gameMode);
 }
 
 @end
